@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPL Cup Tournament System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+        <!-- Favicon links - multiple sizes for different devices -->
+    <link rel="icon" href="images.jpeg" type="image/x-icon">
+    <link rel="shortcut icon" href="images.jpeg" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="images.jpeg">
+    <link rel="icon" type="image/png" sizes="32x32" href="images.jpeg">
+    <link rel="icon" type="image/png" sizes="16x16" href="images.jpeg">
+
+</head>
+<style>
+ 
+</style>
+<body>
+    <div class="container">
+        <header>
+            <h1>RPL Cup Tournament System</h1>
+            <button id="reset-data" class="secondary-btn" style="margin-bottom: 15px;">
+  Reset Data
+</button>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active" data-section="group-stage">Grup Stage</a></li>
+                    <li><a href="#" data-section="team-setup">Penentuan Tim</a></li>
+
+                    <li><a href="#" data-section="schedule">Jadwal & Skor</a></li>
+                    <li><a href="#" data-section="knockout">Knockout Stage</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Group Stage Section -->
+            <section id="group-stage" class="active">
+                <h2>Klasemen Grup</h2>
+                <div class="group-tabs">
+                    <button class="tab-btn active" data-group="A">Grup A</button>
+                    <button class="tab-btn" data-group="B">Grup B</button>
+                </div>
+                
+                <div class="group-tables">
+                    <div id="group-A" class="group-table active">
+                        <h3>Grup A</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tim</th>
+                                    <th>M</th>
+                                    <th>W</th>
+                                    <th>D</th>
+                                    <th>L</th>
+                                    <th>GF</th>
+                                    <th>GA</th>
+                                    <th>GD</th>
+                                    <th>Pts</th>
+                                </tr>
+                            </thead>
+                            <tbody id="group-A-table">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div id="group-B" class="group-table">
+                        <h3>Grup B</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tim</th>
+                                    <th>M</th>
+                                    <th>W</th>
+                                    <th>D</th>
+                                    <th>L</th>
+                                    <th>GF</th>
+                                    <th>GA</th>
+                                    <th>GD</th>
+                                    <th>Pts</th>
+                                </tr>
+                            </thead>
+                            <tbody id="group-B-table">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+<!-- Tambahkan section baru untuk tab Penentuan Tim -->
+<section id="team-setup">
+    <h2>Penentuan Tim</h2>
+    <div class="team-setup-container">
+        <div class="group-tabs">
+            <button class="setup-tab-btn active" data-setup-group="A">Grup A</button>
+            <button class="setup-tab-btn" data-setup-group="B">Grup B</button>
+        </div>
+        
+        <div class="setup-content">
+            <div id="setup-group-A" class="setup-group active">
+                <h3>Grup A - Jadwal Pertandingan</h3>
+                <table class="setup-table">
+                    <thead>
+                        <tr>
+                            <th>Match ID</th>
+                            <th>Tim A</th>
+                            <th></th>
+                            <th>Tim B</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="setup-matches-A">
+                        <!-- Akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="setup-group-B" class="setup-group">
+                <h3>Grup B - Jadwal Pertandingan</h3>
+                <table class="setup-table">
+                    <thead>
+                        <tr>
+                            <th>Match ID</th>
+                            <th>Tim A</th>
+                            <th></th>
+                            <th>Tim B</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="setup-matches-B">
+                        <!-- Akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Template untuk modal pemilihan tim -->
+<div id="team-selection-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Pilih Tim</h3>
+        <div class="modal-body">
+            <input type="hidden" id="current-match-id">
+            <input type="hidden" id="current-team-position">
+            
+            <div class="team-selection">
+                <h4 id="team-selection-title">Tim A</h4>
+                <div id="teams-list" class="teams-list">
+                    <!-- Akan diisi oleh JavaScript -->
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button id="select-team-confirm" class="primary-btn">Pilih</button>
+                <button id="select-team-cancel" class="secondary-btn">Batal</button>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- Schedule & Scores Section -->
+            <section id="schedule">
+                <h2>Jadwal & Input Skor</h2>
+                <div class="schedule-container">
+                    <div class="matches-nav">
+                        <button id="prev-match">
+                            <i class="fas fa-chevron-left"></i> Match Sebelumnya
+                        </button>
+                        <span id="current-match-display">Game 1</span>
+                         <span style="font-size:0.7rem; color:red;">
+                           pastikan sudah submit sebelum ke match Berikutnya
+                         </span>
+                        <button id="next-match">
+                            Match Berikutnya <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="match-card">
+                        <div class="match-header">
+                            <span class="match-id">Game 1</span>
+                            <span class="match-stage">Grup Stage</span>
+                        </div>
+                        
+                        <div class="match-teams">
+                            <div class="team team-a">
+                                <span class="team-name">TKP 1</span>
+                                <div class="score-controls">
+                                    <input type="number" min="0" id="score-a" value="0">
+                                    <button class="goal-btn" data-team="a">+1 Gol</button>
+                                </div>
+                            </div>
+                            
+                            <div class="vs">VS</div>
+                            
+                            <div class="team team-b">
+                                <span class="team-name">TKP 2</span>
+                                <div class="score-controls">
+                                    <input type="number" min="0" id="score-b" value="0">
+                                    <button class="goal-btn" data-team="b">+1 Gol</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="match-actions">
+                         <span style="font-size:0.7rem; color:red;">
+                           pastikan sudah submit sebelum ke match Berikutnya
+                         </span>
+                            <button id="submit-score" class="primary-btn">Submit Skor</button>
+                            <button id="reset-score" class="secondary-btn">Reset Skor</button>
+                        </div>
+                    </div>
+                    
+                    <div class="match-list">
+                        <h3>Semua Pertandingan</h3>
+                        <ul id="all-matches">
+                            <!-- Will be populated by JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Knockout Stage Section -->
+            <section id="knockout">
+                <h2>Knockout Stage</h2>
+                <div class="bracket-container">
+                    <div class="bracket">
+                        <div class="round semifinal">
+                            <div class="round-header">Semifinal</div>
+                            <div class="match-brackets">
+                                <div class="bracket-match" id="semifinal-1">
+                                    <div class="bracket-team" data-team-id="">
+                                        <span class="team-name">1st Grup A</span>
+                                    </div>
+                                    <div class="bracket-vs">VS</div>
+                                    <div class="bracket-team" data-team-id="">
+                                        <span class="team-name">2nd Grup B</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="bracket-match" id="semifinal-2">
+                                    <div class="bracket-team" data-team-id="">
+                                        <span class="team-name">1st Grup B</span>
+                                    </div>
+                                    <div class="bracket-vs">VS</div>
+                                    <div class="bracket-team" data-team-id="">
+                                        <span class="team-name">2nd Grup A</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="round final">
+                            <div class="round-header">Final</div>
+                            <div class="match-brackets">
+                                <div class="bracket-match" id="final">
+                                    <div class="bracket-team winner-semifinal-1" data-team-id="">
+                                        <span class="team-name">Pemenang SF 1</span>
+                                    </div>
+                                    <div class="bracket-vs">VS</div>
+                                    <div class="bracket-team winner-semifinal-2" data-team-id="">
+                                        <span class="team-name">Pemenang SF 2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="round third-place">
+                            <div class="round-header">Perebutan Juara 3</div>
+                            <div class="match-brackets">
+                                <div class="bracket-match" id="third-place">
+                                    <div class="bracket-team loser-semifinal-1" data-team-id="">
+                                        <span class="team-name">Kalah SF 1</span>
+                                    </div>
+                                    <div class="bracket-vs">VS</div>
+                                    <div class="bracket-team loser-semifinal-2" data-team-id="">
+                                        <span class="team-name">Kalah SF 2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="round special-guest">
+                            <div class="round-header">Special Guest</div>
+                            <div class="match-brackets">
+                                <div class="bracket-match" id="special-guest">
+                                    <div class="bracket-team" data-team-id="">
+                                        <span class="team-name">Special Guest 1</span>
+                                    </div>
+                                    <div class="bracket-vs">VS</div>
+                                    <div class="bracket-team" data-team-id="">
+                                        <span class="team-name">Special Guest 2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="winners-podium">
+                        <div class="podium-item champion">
+                            <div class="podium-position">Juara 1</div>
+                            <div class="podium-team" id="champion">-</div>
+                        </div>
+                        <div class="podium-item runner-up">
+                            <div class="podium-position">Juara 2</div>
+                            <div class="podium-team" id="runner-up">-</div>
+                        </div>
+                        <div class="podium-item third-place">
+                            <div class="podium-position">Juara 3</div>
+                            <div class="podium-team" id="third-place-winner">-</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 RPL Cup Tournament System</p>
+        </footer>
+    </div>
+
+    <div class="notification" id="notification">
+        <div class="notification-content">
+            <span class="notification-message"></span>
+            <button class="notification-close">&times;</button>
+        </div>
+    </div>
+
+<script></script>
+    <script src="app.js"></script>
+</body>
+</html>
