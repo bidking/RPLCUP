@@ -811,6 +811,7 @@ tbody tr:nth-child(even) {
   gap: 0.5rem;
   text-decoration: none;
   font-size: 0.9rem;
+  background: var(--primary-gradient);
 }
 .primary-btn {
   background: var(--primary-gradient);
