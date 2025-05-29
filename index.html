@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RPL Cup Tournament System</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
         <!-- Favicon links - multiple sizes for different devices -->
     <link rel="icon" href="images.jpeg" type="image/x-icon">
@@ -31,6 +31,11 @@
 
                     <li><a href="#" data-section="schedule">Jadwal & Skor</a></li>
                     <li><a href="#" data-section="knockout">Knockout Stage</a></li>
+                    <li>
+                      <button id="theme-toggle" class="secondary-btn">
+      <i id="theme-icon" class="fas fa-moon"></i>
+    </button>
+                    </li>
                 </ul>
             </nav>
         </header>
@@ -285,21 +290,7 @@
                             </div>
                         </div>
                         
-                        <div class="round special-guest">
-                            <div class="round-header">Special Guest</div>
-                            <div class="match-brackets">
-                                <div class="bracket-match" id="special-guest">
-                                    <div class="bracket-team" data-team-id="">
-                                        <span class="team-name">Special Guest 1</span>
-                                    </div>
-                                    <div class="bracket-vs">VS</div>
-                                    <div class="bracket-team" data-team-id="">
-                                        <span class="team-name">Special Guest 2</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                       
                     
                     <div class="winners-podium">
                         <div class="podium-item champion">
@@ -310,13 +301,15 @@
                             <div class="podium-position">Juara 2</div>
                             <div class="podium-team" id="runner-up">-</div>
                         </div>
-                        <div class="podium-item third-place">
+                        <div class="podium-item third-place3">
                             <div class="podium-position">Juara 3</div>
                             <div class="podium-team" id="third-place-winner">-</div>
                         </div>
                     </div>
                 </div>
             </section>
+            
+            
         </main>
 
         <footer>
@@ -331,7 +324,36 @@
         </div>
     </div>
 
-<script></script>
-    <script src="app.js"></script>
+<script>
+  // === THEME TOGGLE PERSISTENCE ===
+const themeToggleBtn = document.getElementById('theme-toggle');
+const themeIcon = document.getElementById('theme-icon');
+const root = document.documentElement;
+
+// Ambil preferensi dari localStorage
+const storedTheme = localStorage.getItem('theme');
+if (storedTheme) {
+  root.setAttribute('data-theme', storedTheme);
+  themeIcon.classList.toggle('fa-sun', storedTheme === 'dark');
+  themeIcon.classList.toggle('fa-moon', storedTheme === 'light');
+}
+
+// Fungsi untuk switch theme
+function switchTheme() {
+  const currentTheme = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  root.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  themeIcon.classList.toggle('fa-sun', newTheme === 'dark');
+  themeIcon.classList.toggle('fa-moon', newTheme === 'light');
+}
+
+// Event listener
+themeToggleBtn.addEventListener('click', switchTheme);
+
+</script>
+    
+        <script src="1.js"></script>
+
 </body>
-</html>
+    </html>
